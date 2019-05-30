@@ -1,2 +1,2 @@
-# jbehave-api-testing
-framework for automating REST APIs using JBEHAVE - showcase using github api
+# serenity-cucumber-api-testing
+framework for automating REST APIs using Cucumber - showcase using github api
