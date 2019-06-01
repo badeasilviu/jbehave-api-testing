@@ -4,6 +4,7 @@ import api.WebServiceEndPoints;
 import io.restassured.response.Response;
 import net.serenitybdd.rest.SerenityRest;
 import net.thucydides.core.annotations.Step;
+import org.jruby.RubyProcess;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,7 +31,6 @@ public class GenericSteps {
                 .collect(Collectors.joining("&","?",""));
     }
 
-
     public void setDecorateUrl(Map<String,String> parameters) {
         this.decorateUrl = decorateUrl(parameters);
     }
@@ -39,18 +39,17 @@ public class GenericSteps {
         this.decorateUrl = decorateUrl;
     }
 
+
     private Response callEndpointHttp(String webServiceEndpoint, String body) {
-        String url;
-        String method;
-        switch (webServiceEndpoint) {
-            case "SEARCH_REPOSITORIES":
-                url = WebServiceEndPoints.SEARCH_REPOSITORIES.getUrl() + this.decorateUrl;
-                method = WebServiceEndPoints.SEARCH_REPOSITORIES.getMethod();
-                return callEndpointHttpMethod(url, method, body);
-            default:
-                throw new Error("WebServiceEndpoint" + webServiceEndpoint + "not supported. " +
-                        "Supported values are: " + WebServiceEndPoints.values());
-        }
+        String url = WebServiceEndPoints.valueOf(webServiceEndpoint).getUrl() + this.decorateUrl;
+        String method = WebServiceEndPoints.valueOf(webServiceEndpoint).getMethod();
+        return callEndpointHttpMethod(url, method, body);
+
+    }
+
+    public Response callEndpointHttpWithUrl(String webServiceEndpoint,String url) {
+        String method = WebServiceEndPoints.valueOf(webServiceEndpoint).getMethod();
+        return callEndpointHttpMethod(url, method, "");
     }
 
     private Response callEndpointHttpMethod(String url, String method, String body) {
