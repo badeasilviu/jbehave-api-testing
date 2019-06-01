@@ -4,7 +4,6 @@ import api.WebServiceEndPoints;
 import io.restassured.response.Response;
 import net.serenitybdd.rest.SerenityRest;
 import net.thucydides.core.annotations.Step;
-import io.restassured.path.json.*;
 
 import java.util.Map;
 import java.util.stream.Collectors;

@@ -11,3 +11,17 @@ Feature: Check the order parameter for search/repositories endpoint
   Scenario: Search just for keywords for q parameter: 1..N keywords where N is specified
 
 
+  Scenario:
+  Scenario Outline: Should receive response if q parameter is used in query
+    Given the client uses the following url parameters:
+      |q|<value>|
+    When the client calls 'SEARCH_REPOSITORIES' endpoint
+    Then the client should receive an HTTP 200 response code
+    And the client searching in response using jsonPath 'items[0]' should see:
+      |language|Assembly|
+    And the client searching in response using jsonPath 'items' should see 30 elements
+    And the client searching in response using jsonPath 'total_count' should see 232
+    Examples:
+      | value |
+      |tetris+language:assembly|
+      |cocojambo+language:python|

@@ -8,6 +8,6 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         plugin = {"pretty"},
         features = "classpath:features",
-        tags = {"@automated"}
+        tags = {"@test"}
 )
 public class CucumberTestSuite {}
