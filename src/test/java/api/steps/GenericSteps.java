@@ -2,6 +2,8 @@ package api.steps;
 
 import api.WebServiceEndPoints;
 import io.restassured.response.Response;
+import net.serenitybdd.core.Serenity;
+import net.serenitybdd.core.exceptions.SerenityManagedException;
 import net.serenitybdd.rest.SerenityRest;
 import net.thucydides.core.annotations.Step;
 import org.jruby.RubyProcess;
@@ -68,6 +70,9 @@ public class GenericSteps {
                 .contentType("application/json")
                 .header("Content-Type", "application/json")
                 .get(url);
+        if(response.asString().contains("API rate limit exceeded")) {
+            Serenity.pendingStep("API rate limit exceeded");
+        }
         return response;
 
     }

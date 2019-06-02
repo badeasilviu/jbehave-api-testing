@@ -31,8 +31,7 @@ Feature: Check the most common use cases for search repositories
     When the client calls 'SEARCH_REPOSITORIES' endpoint with success
     Then the client using jsonPath 'items[0].name' should see having 'spark'
      And the client using jsonPath 'items[0].license.name' should see containing 'Apache License 2.0'
-     And the client using jsonPath 'items[1].name' should see having 'kubernetes'
-     And the client using jsonPath 'items[1].language' should see having 'Go'
+     And the client using jsonPath 'items[1].name' should see having 'dubbo'
 
   @automated @uat
   Scenario: Search within a user's or organisation's repositories
@@ -55,7 +54,7 @@ Feature: Check the most common use cases for search repositories
       |sort|stars      |
       |order|desc      |
     When the client calls 'SEARCH_REPOSITORIES' endpoint with success
-    Then the client using jsonPath 'items[0].stargazers_count' should see having 303161
+    Then the client using jsonPath 'items[0].id' should see having 28457823
 
   @automated @uat
   Scenario: Search by number of stars

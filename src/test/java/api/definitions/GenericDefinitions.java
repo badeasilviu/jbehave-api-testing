@@ -64,7 +64,7 @@ public class GenericDefinitions {
 
     @Then("the client should receive an HTTP {int} response code")
     public void theClientShouldReceiveHttpResponseCode(int httpCode) {
-        assertThat(httpCode, equalTo(response.getStatusCode()));
+        assertThat(response.getStatusCode(), equalTo(httpCode));
     }
 
     @Then("the client using jsonPath {string} should see containing {string}")
@@ -167,7 +167,7 @@ public class GenericDefinitions {
 
     @Then("the client using jsonPath {string} should not be empty")
     public void theClientShouldNotSeeEmpty(String jsonPath) {
-        Map<String, String> result = JsonPath.from(response.asString()).get(jsonPath);
+        //TODO
     }
 
     @Then("the client should see the same response with {word} check")
