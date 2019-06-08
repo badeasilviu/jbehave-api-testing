@@ -2,6 +2,8 @@ package api.steps;
 
 import api.WebServiceEndPoints;
 import io.restassured.response.Response;
+import net.serenitybdd.core.Serenity;
+import net.serenitybdd.core.exceptions.SerenityManagedException;
 import net.serenitybdd.rest.SerenityRest;
 import net.thucydides.core.annotations.Step;
 import io.restassured.path.json.*;
@@ -23,7 +25,7 @@ public class GenericSteps {
         return callEndpointHttp(webServiceEndpoint, body);
     }
 
-
+    //Method that gets as parameter a Map of (key,value) url query strings and creates the ?key=value&... string
     private String decorateUrl(Map<String,String> parameters) {
 
         return parameters.keySet().stream()
@@ -31,27 +33,26 @@ public class GenericSteps {
                 .collect(Collectors.joining("&","?",""));
     }
 
-
+    //Method that gets a Map of (key,value) pair for query parameters and calls a private method to generate the query string. Then sets it as a instance variable
     public void setDecorateUrl(Map<String,String> parameters) {
         this.decorateUrl = decorateUrl(parameters);
     }
 
+    //Method that gets asa parameter a query string and sets is a instance variable
     public void setDecorateUrl(String decorateUrl) {
         this.decorateUrl = decorateUrl;
     }
 
     private Response callEndpointHttp(String webServiceEndpoint, String body) {
-        String url;
-        String method;
-        switch (webServiceEndpoint) {
-            case "SEARCH_REPOSITORIES":
-                url = WebServiceEndPoints.SEARCH_REPOSITORIES.getUrl() + this.decorateUrl;
-                method = WebServiceEndPoints.SEARCH_REPOSITORIES.getMethod();
-                return callEndpointHttpMethod(url, method, body);
-            default:
-                throw new Error("WebServiceEndpoint" + webServiceEndpoint + "not supported. " +
-                        "Supported values are: " + WebServiceEndPoints.values());
-        }
+        String url = WebServiceEndPoints.valueOf(webServiceEndpoint).getUrl() + this.decorateUrl;
+        String method = WebServiceEndPoints.valueOf(webServiceEndpoint).getMethod();
+        return callEndpointHttpMethod(url, method, body);
+
+    }
+
+    public Response callEndpointHttpWithUrl(String webServiceEndpoint,String url) {
+        String method = WebServiceEndPoints.valueOf(webServiceEndpoint).getMethod();
+        return callEndpointHttpMethod(url, method, "");
     }
 
     private Response callEndpointHttpMethod(String url, String method, String body) {
